@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/default_padding">
+
+    <TextView
+        android:id="@+id/station_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Awesome Station #1"
+        android:textColor="@color/titleText"
+        android:textSize="@dimen/font_large"
+        />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@+id/station_name"
+        android:id="@+id/arrivals_and_times"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_medium"
+        android:textColor="@color/subtitleText"
+        tools:text= "Train towards Awesome Station #3 in 10 min"
+        />
+
+</android.support.constraint.ConstraintLayout>

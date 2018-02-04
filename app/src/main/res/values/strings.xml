@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TheTube</string>
+
+    <plurals name="seconds">
+        <item quantity="one">1 sec</item>
+        <item quantity="other">%d sec</item>
+    </plurals>
+
+    <plurals name="minutes">
+        <item quantity="one">1 min</item>
+        <item quantity="other">%d min</item>
+    </plurals>
+
+    <string name="train_to_x_in">%1$s train to %2$s in %3$s</string>
+
+</resources>
