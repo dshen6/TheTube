@@ -1,6 +1,10 @@
 package bus.the.ride.thetube
 
 import android.util.Log
+import bus.the.ride.thetube.models.ArrivalPrediction
+import bus.the.ride.thetube.models.StationInRadius
+import bus.the.ride.thetube.models.StationsInRadiusResponse
+import bus.the.ride.thetube.models.Stop
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.BackpressureStrategy
@@ -76,6 +80,10 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         // https://api.tfl.gov.uk/StopPoint/940GZZLUASL/Arrivals?app_id={{app_id}}&app_key={{app_key}}
         @GET("StopPoint/{stationAtcoCode}/Arrivals")
         fun getArrivalsAtStation(@Path("stationAtcoCode") stationId: String): Single<List<ArrivalPrediction>>
+
+        // https://api.tfl.gov.uk/Line/bakerloo/StopPoints?app_id={{app_id}}&app_key={{app_key}}
+        @GET("Line/{lineId}/StopPoints")
+        fun getStopsForLine(@Path("lineId") lineId: String) : Single<List<Stop>>
     }
 
     private fun getStationsInRadius(): Single<StationsInRadiusResponse> {
@@ -114,5 +122,9 @@ class TubeApi private constructor(private val tubeService: TubeService) {
                     subject.onError(it)
                 })
         return subject
+    }
+
+    fun getStopsForLine(lineId: String): Single<List<Stop>> {
+        return tubeService.getStopsForLine(lineId)
     }
 }

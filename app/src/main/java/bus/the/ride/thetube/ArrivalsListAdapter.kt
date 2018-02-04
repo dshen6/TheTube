@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import bus.the.ride.thetube.models.ArrivalPrediction
 
 /**
  * Created by Shen on 2/3/2018.
