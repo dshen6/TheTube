@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *.iml
 .gradle
 /local.properties
@@ -64,4 +63,3 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
->>>>>>> 0b61ab23869ad8952e8ddcf8946b05dc14efc98c
