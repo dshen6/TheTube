@@ -1,4 +1,4 @@
-package bus.the.ride.thetube
+package bus.the.ride.thetube.util
 
 import android.util.Log
 import io.reactivex.Flowable

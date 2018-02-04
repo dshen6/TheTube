@@ -1,4 +1,4 @@
-package bus.the.ride.thetube
+package bus.the.ride.thetube.ui
 
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import bus.the.ride.thetube.NearbyStationsAndArrivals
+import bus.the.ride.thetube.R
 import bus.the.ride.thetube.models.ArrivalPrediction
+import bus.the.ride.thetube.util.TimeFormatUtil
 
 /**
  * Created by Shen on 2/3/2018.
  */
-class ArrivalsListAdapter(private val arrivals: NearbyStationsAndArrivals) : RecyclerView.Adapter<ArrivalsListAdapter.ViewHolder>() {
+class NearbyStationListAdapter(private val arrivals: NearbyStationsAndArrivals) : RecyclerView.Adapter<NearbyStationListAdapter.ViewHolder>() {
 
     companion object {
         private const val ARRIVALS_PER_STATION = 3
@@ -33,7 +36,7 @@ class ArrivalsListAdapter(private val arrivals: NearbyStationsAndArrivals) : Rec
         }
     }
 
-    fun setData(data: NearbyStationsAndArrivals) {
+    fun bind(data: NearbyStationsAndArrivals) {
         arrivals.clear()
         arrivals.addAll(data)
         notifyDataSetChanged()

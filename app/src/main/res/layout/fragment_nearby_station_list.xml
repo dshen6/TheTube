@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/default_padding_twice"
+        />
+
+    <TextView
+        android:id="@+id/empty_state_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/empty_station_list"
+        android:textColor="@color/titleText"
+        android:textSize="@dimen/font_large"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/default_padding_twice"
+        />
+
+    <TextView
+        android:id="@+id/error_state_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/error_network"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/font_large"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/default_padding_twice"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

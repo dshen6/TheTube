@@ -1,6 +1,7 @@
-package bus.the.ride.thetube
+package bus.the.ride.thetube.util
 
 import android.content.res.Resources
+import bus.the.ride.thetube.R
 import java.util.concurrent.TimeUnit
 
 /**

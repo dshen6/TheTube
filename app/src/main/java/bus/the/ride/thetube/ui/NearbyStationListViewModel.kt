@@ -1,6 +1,10 @@
-package bus.the.ride.thetube
+package bus.the.ride.thetube.ui
 
 import android.arch.lifecycle.ViewModel
+import bus.the.ride.thetube.NearbyStationsAndArrivals
+import bus.the.ride.thetube.TubeApi
+import bus.the.ride.thetube.ViewState
+import bus.the.ride.thetube.util.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -11,9 +15,9 @@ import io.reactivex.subjects.BehaviorSubject
 /**
  * Created by Shen on 1/31/2018.
  */
-class ArrivalsListViewModel internal constructor(private val viewStateSubject: BehaviorSubject<ViewState<NearbyStationsAndArrivals>> = BehaviorSubject.createDefault(ViewState.Init()),
-                                                 private val modelSubject: BehaviorSubject<NearbyStationsAndArrivals> = TubeApi.instance.getStationsAndArrivalsSubject(),
-                                                 private val compositeDisposable: CompositeDisposable = CompositeDisposable()) : ViewModel() {
+class NearbyStationListViewModel internal constructor(private val viewStateSubject: BehaviorSubject<ViewState<NearbyStationsAndArrivals>> = BehaviorSubject.createDefault(ViewState.Init()),
+                                                      private val modelSubject: BehaviorSubject<NearbyStationsAndArrivals> = TubeApi.instance.getStationsAndArrivalsSubject(),
+                                                      private val compositeDisposable: CompositeDisposable = CompositeDisposable()) : ViewModel() {
 
     fun observe(consumer: Consumer<ViewState<NearbyStationsAndArrivals>>) {
         addDisposable(viewStateSubject.subscribe(consumer))

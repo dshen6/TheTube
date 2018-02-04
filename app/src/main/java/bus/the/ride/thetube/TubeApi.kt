@@ -5,6 +5,7 @@ import bus.the.ride.thetube.models.ArrivalPrediction
 import bus.the.ride.thetube.models.StationInRadius
 import bus.the.ride.thetube.models.StationsInRadiusResponse
 import bus.the.ride.thetube.models.Stop
+import bus.the.ride.thetube.util.exponentialBackoff
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.BackpressureStrategy
