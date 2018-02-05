@@ -1,7 +1,9 @@
 package bus.the.ride.thetube
 
+import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import bus.the.ride.thetube.models.StationInRadius
+import bus.the.ride.thetube.util.IntentExtras
 
 /**
  * Created by Shen on 2/4/2018.
@@ -21,6 +23,9 @@ class AppRouter {
 
         fun showLineStopsListFragment(activity: FragmentActivity, lineId: String, station: StationInRadius) {
             val fragment = NearbyStationListFragment()
+            fragment.arguments = Bundle().apply {
+                putString(IntentExtras.LINE_ID_STRING, lineId)
+            }
             activity.supportFragmentManager
                     .beginTransaction()
                     .replace(DEFAULT_FRAGMENT_CONTAINER_ID, fragment)
