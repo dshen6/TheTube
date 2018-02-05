@@ -33,7 +33,7 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
 
     init {
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = NearbyStationsSectionAdapter()
+        recyclerView.adapter = NearbyStationsSectionAdapter(context)
     }
 
     fun setState(state: ViewState<NearbyStationsAndArrivals>) {

@@ -11,9 +11,14 @@
         <item quantity="other">%d min</item>
     </plurals>
 
+    <plurals name="meters">
+        <item quantity="one">1 meter</item>
+        <item quantity="other">%d meters</item>
+    </plurals>
+
     <string name="train_to_x_in">%1$s train to %2$s in %3$s</string>
 
-    <string name="empty_station_list">No Nearby Stations</string>
+    <string name="empty_station_list">No Nearby Stations with incoming trains.</string>
     <string name="error_network">Something went wrong. Check your network and try again.</string>
 
 </resources>

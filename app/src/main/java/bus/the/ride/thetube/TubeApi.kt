@@ -36,8 +36,8 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         private const val TUBE_STATION_STOP_TYPE = "NaptanMetroStation"
 
         private const val DEFAULT_RADIUS = 1000
-        private const val DEFAULT_LATITUDE = 51.4999359F // Palace of Westminster
-        private const val DEFAULT_LONGITUDE = -0.1274875F
+        private const val DEFAULT_LATITUDE = 51.503147F
+        private const val DEFAULT_LONGITUDE = -0.113245F
 
         private const val RETRY_PERIOD_SEC = 30L
 
@@ -101,7 +101,9 @@ class TubeApi private constructor(private val tubeService: TubeService) {
                 val outstandingRequestCount = AtomicInteger(it.stations.size)
                 it.stations.forEach { station ->
                     getArrivalsAtStation(station.stationId).subscribe({ predictionsList ->
-                        emitter.onNext(station to predictionsList.sortedBy { it.timeToArrival })
+                        if (predictionsList.isNotEmpty()) {
+                            emitter.onNext(station to predictionsList.sortedBy { it.timeToArrival })
+                        }
                         if (outstandingRequestCount.decrementAndGet() == 0) {
                             emitter.onComplete()
                         }

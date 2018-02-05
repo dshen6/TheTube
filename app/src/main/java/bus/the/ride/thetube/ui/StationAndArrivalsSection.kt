@@ -1,5 +1,6 @@
 package bus.the.ride.thetube.ui
 
+import android.content.Context
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,7 +13,7 @@ import bus.the.ride.thetube.util.TimeFormatUtil
 /**
  * Created by Shen on 2/4/2018.
  */
-class StationAndArrivalsSection(private val stationAndArrivals: Pair<StationInRadius, List<ArrivalPrediction>>) : Section(R.layout.header_item_nearby_station, null, R.layout.item_arrival) {
+class StationAndArrivalsSection(private val context: Context, private val stationAndArrivals: Pair<StationInRadius, List<ArrivalPrediction>>) : Section(R.layout.header_item_nearby_station, null, R.layout.item_arrival) {
 
     companion object {
         private const val ARRIVALS_PER_STATION = 3
@@ -25,6 +26,8 @@ class StationAndArrivalsSection(private val stationAndArrivals: Pair<StationInRa
     override fun onBindHeaderViewHolder(holder: RecyclerView.ViewHolder?) {
         (holder as HeaderViewHolder).apply {
             stationName.text = stationAndArrivals.first.name
+            val meters = stationAndArrivals.first.distanceMeters.toInt()
+            distanceMeters.text = context.resources.getQuantityString(R.plurals.meters, meters, meters)
         }
     }
 
@@ -40,7 +43,7 @@ class StationAndArrivalsSection(private val stationAndArrivals: Pair<StationInRa
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         (holder as ContentViewHolder).apply {
             if (position < stationAndArrivals.second.size) {
-                arrivalsAndTimes.text = formatArrivalsAndTimes(stationAndArrivals.second[position], arrivalsAndTimes.resources)
+                arrivalsAndTimes.text = formatArrivalsAndTimes(stationAndArrivals.second[position], context.resources)
             }
         }
     }
@@ -51,6 +54,7 @@ class StationAndArrivalsSection(private val stationAndArrivals: Pair<StationInRa
 
     class HeaderViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         val stationName: TextView = root.findViewById(R.id.station_name)
+        val distanceMeters: TextView = root.findViewById(R.id.distance_meters)
     }
 
     class ContentViewHolder(root: View) : RecyclerView.ViewHolder(root) {
