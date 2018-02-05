@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+// from github.com/mandybess
 public class SectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public final static int VIEW_TYPE_HEADER = 0;
