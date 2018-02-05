@@ -22,7 +22,7 @@ class AppRouter {
         }
 
         fun showLineStopsListFragment(activity: FragmentActivity, lineId: String, station: StationInRadius) {
-            val fragment = NearbyStationListFragment()
+            val fragment = LineStopsListFragment()
             fragment.arguments = Bundle().apply {
                 putString(IntentExtras.LINE_ID_STRING, lineId)
                 putString(IntentExtras.STATION_NAME_STRING, station.name)

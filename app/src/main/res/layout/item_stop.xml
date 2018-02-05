@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_padding">
+
+
+    <TextView
+        android:id="@+id/stopNameSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_large"
+        tools:text="station Name" />
+
+    <TextView
+        android:id="@+id/stopNamePrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/subtitleText"
+        android:textSize="@dimen/font_large"
+        tools:text="station Name" />
+
+</FrameLayout>

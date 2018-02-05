@@ -6,4 +6,6 @@
 
     <color name="titleText">#3F51B5</color>
     <color name="subtitleText">#19204b</color>
+
+    <color name="gray">#404040</color>
 </resources>

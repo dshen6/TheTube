@@ -48,7 +48,9 @@ class StationAndArrivalsSection(private val context: Context,
             stationAndArrivals.let { (station, predictions) ->
                 if (position < predictions.size) {
                     arrivalsAndTimes.text = formatArrivalsAndTimes(predictions[position], context.resources)
-                    arrivalItemClickRunnable?.run(predictions[position].lineId, station)
+                    arrivalItemClickRunnable?.let {
+                        root.setOnClickListener { arrivalItemClickRunnable.run(predictions[position].lineId, station) }
+                    }
                 }
                 if (predictions.isEmpty()) {
                     arrivalsAndTimes.text = context.getString(R.string.empty_arrivals_for_station)
@@ -66,7 +68,7 @@ class StationAndArrivalsSection(private val context: Context,
         val distanceMeters: TextView = root.findViewById(R.id.distance_meters)
     }
 
-    class ContentViewHolder(root: View) : RecyclerView.ViewHolder(root) {
+    class ContentViewHolder(val root: View) : RecyclerView.ViewHolder(root) {
         val arrivalsAndTimes: TextView = root.findViewById(R.id.arrivals_and_times)
     }
 
