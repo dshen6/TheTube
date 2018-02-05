@@ -8,12 +8,15 @@ import android.widget.TextView
 import bus.the.ride.thetube.R
 import bus.the.ride.thetube.models.ArrivalPrediction
 import bus.the.ride.thetube.models.StationInRadius
+import bus.the.ride.thetube.util.ArrivalItemClickRunnable
 import bus.the.ride.thetube.util.TimeFormatUtil
 
 /**
  * Created by Shen on 2/4/2018.
  */
-class StationAndArrivalsSection(private val context: Context, private val stationAndArrivals: Pair<StationInRadius, List<ArrivalPrediction>>) : Section(R.layout.header_item_nearby_station, null, R.layout.item_arrival) {
+class StationAndArrivalsSection(private val context: Context,
+                                private val stationAndArrivals: Pair<StationInRadius, List<ArrivalPrediction>>,
+                                private val arrivalItemClickRunnable: ArrivalItemClickRunnable?) : Section(R.layout.header_item_nearby_station, null, R.layout.item_arrival) {
 
     companion object {
         private const val ARRIVALS_PER_STATION = 3
@@ -42,10 +45,12 @@ class StationAndArrivalsSection(private val context: Context, private val statio
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         (holder as ContentViewHolder).apply {
-            stationAndArrivals.let {(_, predictions) ->
+            stationAndArrivals.let { (station, predictions) ->
                 if (position < predictions.size) {
                     arrivalsAndTimes.text = formatArrivalsAndTimes(predictions[position], context.resources)
-                } else if (predictions.isEmpty()) {
+                    arrivalItemClickRunnable?.run(predictions[position].lineId, station)
+                }
+                if (predictions.isEmpty()) {
                     arrivalsAndTimes.text = context.getString(R.string.empty_arrivals_for_station)
                 }
             }

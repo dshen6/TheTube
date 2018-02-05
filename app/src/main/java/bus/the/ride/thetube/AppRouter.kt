@@ -25,6 +25,8 @@ class AppRouter {
             val fragment = NearbyStationListFragment()
             fragment.arguments = Bundle().apply {
                 putString(IntentExtras.LINE_ID_STRING, lineId)
+                putString(IntentExtras.STATION_NAME_STRING, station.name)
+                putString(IntentExtras.STATION_ID_STRING, station.stationId)
             }
             activity.supportFragmentManager
                     .beginTransaction()

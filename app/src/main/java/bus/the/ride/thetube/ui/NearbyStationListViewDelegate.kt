@@ -10,9 +10,10 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import bus.the.ride.thetube.api.NearbyStationsAndArrivals
 import bus.the.ride.thetube.R
 import bus.the.ride.thetube.ViewState
+import bus.the.ride.thetube.api.NearbyStationsAndArrivals
+import bus.the.ride.thetube.util.ArrivalItemClickRunnable
 
 /**
  * Created by Shen on 2/3/2018.
@@ -24,7 +25,7 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
             val root = inflater.inflate(R.layout.fragment_nearby_station_list, container, false)
             return NearbyStationListViewDelegate(root, inflater.context)
         }
-     }
+    }
 
     private val emptyText: TextView = root.findViewById(R.id.empty_state_text)
     private val errorText: TextView = root.findViewById(R.id.error_state_text)
@@ -35,6 +36,8 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = NearbyStationsSectionAdapter(context)
     }
+
+    var arrivalItemClickRunnable: ArrivalItemClickRunnable? = null
 
     fun setState(state: ViewState<NearbyStationsAndArrivals>) {
         when (state) {
@@ -57,7 +60,7 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
                 emptyText.visibility = GONE
                 errorText.visibility = GONE
                 progressBar.visibility = GONE
-                (recyclerView.adapter as NearbyStationsSectionAdapter).bind(state.data)
+                (recyclerView.adapter as NearbyStationsSectionAdapter).bind(state.data, arrivalItemClickRunnable)
             }
         }
     }
