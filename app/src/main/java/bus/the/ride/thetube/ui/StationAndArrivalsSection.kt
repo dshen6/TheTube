@@ -19,7 +19,7 @@ class StationAndArrivalsSection(private val context: Context, private val statio
         private const val ARRIVALS_PER_STATION = 3
     }
 
-    override fun getContentItemsTotal() = Math.min(stationAndArrivals.second.size, ARRIVALS_PER_STATION)
+    override fun getContentItemsTotal() = Math.min(Math.max(stationAndArrivals.second.size, 1), ARRIVALS_PER_STATION)
 
     override fun onCreateHeaderViewHolder(view: View) = HeaderViewHolder(view)
 
@@ -42,8 +42,12 @@ class StationAndArrivalsSection(private val context: Context, private val statio
 
     override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         (holder as ContentViewHolder).apply {
-            if (position < stationAndArrivals.second.size) {
-                arrivalsAndTimes.text = formatArrivalsAndTimes(stationAndArrivals.second[position], context.resources)
+            stationAndArrivals.let {(_, predictions) ->
+                if (position < predictions.size) {
+                    arrivalsAndTimes.text = formatArrivalsAndTimes(predictions[position], context.resources)
+                } else if (predictions.isEmpty()) {
+                    arrivalsAndTimes.text = context.getString(R.string.empty_arrivals_for_station)
+                }
             }
         }
     }

@@ -101,9 +101,7 @@ class TubeApi private constructor(private val tubeService: TubeService) {
                 val outstandingRequestCount = AtomicInteger(it.stations.size)
                 it.stations.forEach { station ->
                     getArrivalsAtStation(station.stationId).subscribe({ predictionsList ->
-                        if (predictionsList.isNotEmpty()) {
-                            emitter.onNext(station to predictionsList.sortedBy { it.timeToArrival })
-                        }
+                        emitter.onNext(station to predictionsList.sortedBy { it.timeToArrival })
                         if (outstandingRequestCount.decrementAndGet() == 0) {
                             emitter.onComplete()
                         }
