@@ -1,9 +1,7 @@
 package bus.the.ride.thetube.api
 
-import bus.the.ride.thetube.models.ArrivalPrediction
-import bus.the.ride.thetube.models.StationInRadius
-import bus.the.ride.thetube.models.StationsInRadiusResponse
-import bus.the.ride.thetube.models.Stop
+import bus.the.ride.thetube.models.*
+import bus.the.ride.thetube.util.Haversine
 import bus.the.ride.thetube.util.exponentialBackoff
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -15,9 +13,9 @@ import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
-/**
- * Created by Shen on 1/20/2018.
- */
+        /**
+         * Created by Shen on 1/20/2018.
+         */
 typealias NearbyStationsAndArrivals = MutableList<Pair<StationInRadius, List<ArrivalPrediction>>>
 
 class TubeApi private constructor(private val tubeService: TubeService) {
@@ -46,6 +44,10 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         // https://api.tfl.gov.uk/Line/bakerloo/StopPoints?app_id={{app_id}}&app_key={{app_key}}
         @GET("Line/{lineId}/StopPoints")
         fun getStopsForLine(@Path("lineId") lineId: String): Single<List<Stop>>
+
+        // https://api.tfl.gov.uk/StopPoint/940GZZLUASL?app_id={{app_id}}&app_key={{app_key}}
+        @GET("StopPoint/{stopId}")
+        fun getStopLatLon(@Path("stopId") stopId: String): Single<StopLatLonResponse>
     }
 
     private fun getStationsInRadius(): Single<StationsInRadiusResponse> {
@@ -88,5 +90,19 @@ class TubeApi private constructor(private val tubeService: TubeService) {
 
     fun getStopsForLine(lineId: String): Single<List<Stop>> {
         return tubeService.getStopsForLine(lineId)
+    }
+
+    fun getStopLatLon(stopId: String): Single<StopLatLonResponse> {
+        return tubeService.getStopLatLon(stopId)
+    }
+
+    fun getClosestDistanceFromTarget(stopIds: List<String>, target: Pair<Double, Double>): Single<Pair<Int, Double>> {
+        if (stopIds.isEmpty()) {
+            throw IllegalArgumentException("empty stopId list")
+        }
+
+        return Single.merge(stopIds.map { stopId ->
+            tubeService.getStopLatLon(stopId)
+        }).toList().map { Haversine.closestDistanceToTarget(target, it) }
     }
 }
