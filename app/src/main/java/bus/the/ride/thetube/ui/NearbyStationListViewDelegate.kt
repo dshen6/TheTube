@@ -33,7 +33,7 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
 
     init {
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = NearbyStationListAdapter(ArrayList())
+        recyclerView.adapter = NearbyStationsSectionAdapter()
     }
 
     fun setState(state: ViewState<NearbyStationsAndArrivals>) {
@@ -57,7 +57,7 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
                 emptyText.visibility = GONE
                 errorText.visibility = GONE
                 progressBar.visibility = GONE
-                (recyclerView.adapter as NearbyStationListAdapter).bind(state.data)
+                (recyclerView.adapter as NearbyStationsSectionAdapter).bind(state.data)
             }
         }
     }

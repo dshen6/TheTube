@@ -4,6 +4,7 @@
     <dimen name="font_medium"> 16sp </dimen>
     <dimen name="font_large"> 18sp </dimen>
 
+    <dimen name="default_padding_half"> 5dp </dimen>
     <dimen name="default_padding"> 10dp </dimen>
     <dimen name="default_padding_twice"> 20dp </dimen>
 </resources>
