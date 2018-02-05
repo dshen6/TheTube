@@ -1,21 +1,14 @@
-package bus.the.ride.thetube
+package bus.the.ride.thetube.api
 
-import android.util.Log
 import bus.the.ride.thetube.models.ArrivalPrediction
 import bus.the.ride.thetube.models.StationInRadius
 import bus.the.ride.thetube.models.StationsInRadiusResponse
 import bus.the.ride.thetube.models.Stop
 import bus.the.ride.thetube.util.exponentialBackoff
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -31,45 +24,13 @@ class TubeApi private constructor(private val tubeService: TubeService) {
 
     companion object {
 
-        private const val APP_ID = "5ae3f9a3"
-        private const val APP_KEY = "e288b404bfb0b24d98dab6455df30eb6"
         private const val TUBE_STATION_STOP_TYPE = "NaptanMetroStation"
-
         private const val DEFAULT_RADIUS = 1000
-        private const val DEFAULT_LATITUDE = 51.503147F
+        private const val DEFAULT_LATITUDE = 51.503147F // Waterloo station
         private const val DEFAULT_LONGITUDE = -0.113245F
-
         private const val RETRY_PERIOD_SEC = 30L
 
-        private val retrofitInstance: Retrofit by lazy {
-            Retrofit.Builder()
-                    .client(okHttpInstance)
-                    .baseUrl("https://api.tfl.gov.uk")
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-                    .addConverterFactory(GsonConverterFactory.create(gsonInstance))
-                    .build()
-        }
-
-        private val gsonInstance: Gson = GsonBuilder().create()
-
-        private val okHttpInstance: OkHttpClient = OkHttpClient.Builder().addNetworkInterceptor({
-            val originalHttpUrl = it.request().url()
-
-            val url = originalHttpUrl.newBuilder()
-                    .addQueryParameter("app_id", APP_ID)
-                    .addQueryParameter("app_key", APP_KEY)
-                    .build()
-
-            // Request customization: add request headers
-            val requestBuilder = it.request().newBuilder().url(url)
-
-            Log.d("TUBEAPI", "url is " + url.toString())
-
-            val request = requestBuilder.build()
-            it.proceed(request)
-        }).build()
-
-        val instance: TubeApi by lazy { TubeApi(retrofitInstance.create(TubeService::class.java)) }
+        val instance: TubeApi by lazy { TubeApi(RetrofitManager.instance.create(TubeService::class.java)) }
     }
 
     private interface TubeService {
@@ -84,7 +45,7 @@ class TubeApi private constructor(private val tubeService: TubeService) {
 
         // https://api.tfl.gov.uk/Line/bakerloo/StopPoints?app_id={{app_id}}&app_key={{app_key}}
         @GET("Line/{lineId}/StopPoints")
-        fun getStopsForLine(@Path("lineId") lineId: String) : Single<List<Stop>>
+        fun getStopsForLine(@Path("lineId") lineId: String): Single<List<Stop>>
     }
 
     private fun getStationsInRadius(): Single<StationsInRadiusResponse> {

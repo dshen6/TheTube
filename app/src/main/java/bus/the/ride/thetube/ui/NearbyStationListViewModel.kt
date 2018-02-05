@@ -1,8 +1,8 @@
 package bus.the.ride.thetube.ui
 
 import android.arch.lifecycle.ViewModel
-import bus.the.ride.thetube.NearbyStationsAndArrivals
-import bus.the.ride.thetube.TubeApi
+import bus.the.ride.thetube.api.NearbyStationsAndArrivals
+import bus.the.ride.thetube.api.TubeApi
 import bus.the.ride.thetube.ViewState
 import bus.the.ride.thetube.util.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers

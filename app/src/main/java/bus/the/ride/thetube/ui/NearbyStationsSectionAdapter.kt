@@ -1,7 +1,7 @@
 package bus.the.ride.thetube.ui
 
 import android.content.Context
-import bus.the.ride.thetube.NearbyStationsAndArrivals
+import bus.the.ride.thetube.api.NearbyStationsAndArrivals
 
 /**
  * Created by Shen on 2/3/2018.

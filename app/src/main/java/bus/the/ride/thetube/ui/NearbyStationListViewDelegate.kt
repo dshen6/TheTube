@@ -10,7 +10,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import bus.the.ride.thetube.NearbyStationsAndArrivals
+import bus.the.ride.thetube.api.NearbyStationsAndArrivals
 import bus.the.ride.thetube.R
 import bus.the.ride.thetube.ViewState
 
