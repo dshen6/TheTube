@@ -39,10 +39,10 @@ class NearbyStationListViewModel(val data: NearbyStationsLiveData = NearbyStatio
                         }
                     }
                     .subscribe({
-                        if (it.isEmpty()) {
-                            value = ViewState.Empty()
+                        value = if (it.isEmpty()) {
+                            ViewState.Empty()
                         } else {
-                            value = ViewState.DataReady(it)
+                            ViewState.DataReady(it)
                         }
                     }, {
                         value = ViewState.Error()

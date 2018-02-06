@@ -11,9 +11,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.atomic.AtomicInteger
 
-        /**
-         * Created by Shen on 1/20/2018.
-         */
+/**
+ * Created by Shen on 1/20/2018.
+ */
 typealias NearbyStationsAndArrivals = MutableList<Pair<StationInRadius, List<ArrivalPrediction>>>
 
 class TubeApi private constructor(private val tubeService: TubeService) {
@@ -56,6 +56,7 @@ class TubeApi private constructor(private val tubeService: TubeService) {
     }
 
     private fun getStationsAndArrivals(): Flowable<Pair<StationInRadius, List<ArrivalPrediction>>> {
+        // TODO: Single.merge would be a lot more readable
         return Flowable.create({ emitter ->
             getStationsInRadius().subscribe({
                 val outstandingRequestCount = AtomicInteger(it.stations.size)

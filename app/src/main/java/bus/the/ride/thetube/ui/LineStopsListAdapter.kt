@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import bus.the.ride.thetube.R
 import bus.the.ride.thetube.models.Stop
+import bus.the.ride.thetube.util.asVisibility
 
 /**
  * Created by Shen on 2/4/2018.
@@ -25,13 +26,11 @@ class LineStopsListAdapter(private val context: Context, private val stops: Muta
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.apply {
+            stopNamePrimary.visibility = isSelectedStop(position).asVisibility()
+            stopNameSecondary.visibility = (!isSelectedStop(position)).asVisibility()
             if (isSelectedStop(position)) {
-                stopNamePrimary.visibility = VISIBLE
-                stopNameSecondary.visibility = GONE
                 stopNamePrimary.text = stops[position].name
             } else {
-                stopNamePrimary.visibility = GONE
-                stopNameSecondary.visibility = VISIBLE
                 stopNameSecondary.text = stops[position].name
             }
         }
