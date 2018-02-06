@@ -11,6 +11,7 @@ import bus.the.ride.thetube.ui.LineStopsListViewDelegate
 import bus.the.ride.thetube.ui.LineStopsListViewModel
 import bus.the.ride.thetube.ui.NearbyStationListViewModel
 import bus.the.ride.thetube.util.IntentExtras
+import bus.the.ride.thetube.util.NullableUtils.ifNotNull
 import bus.the.ride.thetube.util.ViewModelProviderHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -33,25 +34,12 @@ class LineStopsListFragment : Fragment() {
             lineId = getString(IntentExtras.LINE_ID_STRING)
             stationId = getString(IntentExtras.STATION_ID_STRING)
         }
-
-        val list = ArrayList<String>().apply {
-            add("940GZZLUASL")
-            add("940GZZLUALP")
-            add("940GZZLUWLO")
-        }
-        TubeApi.instance.getClosestDistanceFromTarget(list, 51.503147 to -0.113245)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( {
-                    System.out.println(it)
-                }, {
-
-                })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val lineStopsListViewDelegate = LineStopsListViewDelegate.create(inflater, container)
-        lineId?.let {
-            viewModel.getDataForLineId(it).observe(this, Observer { viewState ->
+        ifNotNull(lineId, stationId) { lineId, stationId ->
+            viewModel.getDataForLineId(lineId, stationId).observe(this, Observer { viewState ->
                 viewState?.let { lineStopsListViewDelegate.setState(it) }
             })
         }

@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import bus.the.ride.thetube.R
 import bus.the.ride.thetube.ViewState
+import bus.the.ride.thetube.models.LineStopsAndCursor
 import bus.the.ride.thetube.models.Stop
 import bus.the.ride.thetube.util.asVisibility
 
@@ -34,13 +35,13 @@ class LineStopsListViewDelegate(val root: View, context: Context) {
         recyclerView.adapter = LineStopsListAdapter(context)
     }
 
-    fun setState(state: ViewState<List<Stop>>) {
+    fun setState(state: ViewState<LineStopsAndCursor>) {
         errorText.visibility = (state is ViewState.Error).asVisibility()
         progressBar.visibility = (state is ViewState.Loading).asVisibility()
         recyclerView.visibility = (state is ViewState.DataReady).asVisibility()
         when (state) {
             is ViewState.DataReady -> {
-                (recyclerView.adapter as LineStopsListAdapter).bind(state.data, "", 2, .5F)
+                (recyclerView.adapter as LineStopsListAdapter).bind(state.data)
             }
         }
     }

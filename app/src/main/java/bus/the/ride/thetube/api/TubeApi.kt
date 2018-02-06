@@ -82,11 +82,7 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         return tubeService.getStopsForLine(lineId)
     }
 
-    fun getStopLatLon(stopId: String): Single<StopLatLonResponse> {
-        return tubeService.getStopLatLon(stopId)
-    }
-
-    fun getClosestDistanceFromTarget(stopIds: List<String>, target: Pair<Double, Double>): Single<Pair<Int, Double>> {
+    fun getClosestDistanceFromTarget(stopIds: List<String>, target: Pair<Double, Double> = (DEFAULT_LATITUDE.toDouble() to DEFAULT_LONGITUDE.toDouble())): Single<Pair<Int, Double>> {
         if (stopIds.isEmpty()) {
             throw IllegalArgumentException("empty stopId list")
         }

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import bus.the.ride.thetube.R
+import bus.the.ride.thetube.models.LineStopsAndCursor
 import bus.the.ride.thetube.models.Stop
 import bus.the.ride.thetube.util.asVisibility
 import bus.the.ride.thetube.util.dpToPixels
@@ -33,36 +34,36 @@ class LineStopsListAdapter(private val context: Context, private val stops: Muta
         holder?.apply {
             stopNamePrimary.visibility = isSelectedStop(position).asVisibility()
             stopNameSecondary.visibility = (!isSelectedStop(position)).asVisibility()
-            locationCursor.visibility = (cursorPosition == position).asVisibility()
+            locationCursor.visibility = (currentLocationIndex == position).asVisibility()
             if (isSelectedStop(position)) {
                 stopNamePrimary.text = stops[position].name
             } else {
                 stopNameSecondary.text = stops[position].name
             }
-            cursorOffset?.let {
+            locationViewOffset?.let {
                 val layoutParams = locationCursor.layoutParams as FrameLayout.LayoutParams
                 if (it < 0) {
-                    layoutParams.topMargin = (it.absoluteValue * CURSOR_OFFSET_SCALAR).dpToPixels()
+                    layoutParams.topMargin = (it.absoluteValue * CURSOR_OFFSET_SCALAR).toFloat().dpToPixels()
                     layoutParams.bottomMargin = 0
                 } else {
-                    layoutParams.bottomMargin = (it.absoluteValue * CURSOR_OFFSET_SCALAR).dpToPixels()
+                    layoutParams.bottomMargin = (it.absoluteValue * CURSOR_OFFSET_SCALAR).toFloat().dpToPixels()
                     layoutParams.topMargin = 0
                 }
             }
         }
     }
 
-    private var cursorPosition: Int? = null
-    private var cursorOffset: Float? = null
+    private var currentLocationIndex: Int? = null
+    private var locationViewOffset: Double? = null
 
     private fun isSelectedStop(position: Int) = stops[position].id == selectedStopId
 
-    fun bind(data: List<Stop>, stopId: String, cursorPos: Int, offset: Float) {
-        cursorPosition = cursorPos
-        cursorOffset = offset
-        selectedStopId = stopId
+    fun bind(data: LineStopsAndCursor) {
+        currentLocationIndex = data.locationCursorIndex
+        locationViewOffset = data.locationViewOffset
+        selectedStopId = data.currentStationId
         stops.clear()
-        stops.addAll(data)
+        stops.addAll(data.stops)
         notifyDataSetChanged()
     }
 
