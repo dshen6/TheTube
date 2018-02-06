@@ -6,11 +6,9 @@ import bus.the.ride.thetube.util.exponentialBackoff
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.subjects.BehaviorSubject
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
         /**
@@ -26,7 +24,6 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         private const val DEFAULT_RADIUS = 1000
         private const val DEFAULT_LATITUDE = 51.503147F // Waterloo station
         private const val DEFAULT_LONGITUDE = -0.113245F
-        private const val RETRY_PERIOD_SEC = 30L
 
         val instance: TubeApi by lazy { TubeApi(RetrofitManager.instance.create(TubeService::class.java)) }
     }
@@ -74,18 +71,10 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         }, BackpressureStrategy.LATEST)
     }
 
-    fun getStationsAndArrivalsSubject(): BehaviorSubject<NearbyStationsAndArrivals> {
-        val subject = BehaviorSubject.create<NearbyStationsAndArrivals>()
-        getStationsAndArrivals()
+    fun getStationsAndArrivalsList(): Single<NearbyStationsAndArrivals> {
+        return getStationsAndArrivals()
                 .toSortedList { one, two -> one.first.distanceMeters.compareTo(two.first.distanceMeters) }
                 .exponentialBackoff(3)
-                .repeatWhen { completed -> completed.delay(RETRY_PERIOD_SEC, TimeUnit.SECONDS) }
-                .subscribe({
-                    subject.onNext(it)
-                }, {
-                    subject.onError(it)
-                })
-        return subject
     }
 
     fun getStopsForLine(lineId: String): Single<List<Stop>> {

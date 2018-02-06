@@ -1,62 +1,63 @@
 package bus.the.ride.thetube.ui
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import bus.the.ride.thetube.ViewState
 import bus.the.ride.thetube.api.NearbyStationsAndArrivals
 import bus.the.ride.thetube.api.TubeApi
-import bus.the.ride.thetube.ViewState
-import bus.the.ride.thetube.util.plusAssign
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Shen on 1/31/2018.
  */
-class NearbyStationListViewModel internal constructor(private val viewStateSubject: BehaviorSubject<ViewState<NearbyStationsAndArrivals>> = BehaviorSubject.createDefault(ViewState.Init()),
-                                                      private val modelSubject: BehaviorSubject<NearbyStationsAndArrivals> = TubeApi.instance.getStationsAndArrivalsSubject(),
-                                                      private val compositeDisposable: CompositeDisposable = CompositeDisposable()) : ViewModel() {
+class NearbyStationListViewModel(val data: NearbyStationsLiveData = NearbyStationsLiveData()) : ViewModel() {
 
-    fun observe(consumer: Consumer<ViewState<NearbyStationsAndArrivals>>) {
-        addDisposable(viewStateSubject.subscribe(consumer))
-        loadData()
-    }
+    class NearbyStationsLiveData(private val request: Single<NearbyStationsAndArrivals> = TubeApi.instance.getStationsAndArrivalsList()) : LiveData<ViewState<NearbyStationsAndArrivals>>() {
 
-    private fun loadData() {
-        if (modelSubject.hasObservers()) {
-            return
+        companion object {
+            private const val RETRY_PERIOD_SEC = 30L
         }
-        addDisposable(modelSubject
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe {
-                    if (viewStateSubject.value is ViewState.Init) {
-                        publishState(ViewState.Loading())
+
+        init {
+            value = ViewState.Init()
+            loadData()
+        }
+
+        private var repeatDisposable: Disposable? = null
+
+        private fun loadData() {
+            repeatDisposable = request.observeOn(AndroidSchedulers.mainThread())
+                    .repeatWhen { completed -> completed.delay(RETRY_PERIOD_SEC, TimeUnit.SECONDS) }
+                    .subscribeOn(Schedulers.io())
+                    .doOnSubscribe {
+                        if (value is ViewState.Init) {
+                            value = ViewState.Loading()
+                        }
                     }
-                }
-                .subscribe({
-                    if (it.isEmpty()) {
-                        publishState(ViewState.Empty())
-                    } else {
-                        publishState(ViewState.DataReady(it))
-                    }
-                }, {
-                    publishState(ViewState.Error())
-                }))
-    }
+                    .subscribe({
+                        if (it.isEmpty()) {
+                            value = ViewState.Empty()
+                        } else {
+                            value = ViewState.DataReady(it)
+                        }
+                    }, {
+                        value = ViewState.Error()
+                    })
+        }
 
-    private fun publishState(state: ViewState<NearbyStationsAndArrivals>) {
-        viewStateSubject.onNext(state)
-    }
+        override fun onActive() {
+            if (repeatDisposable == null) {
+                loadData()
+            }
+        }
 
-    private fun addDisposable(disposable: Disposable) {
-        compositeDisposable += disposable
-    }
-
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
+        override fun onInactive() {
+            repeatDisposable?.dispose()
+            repeatDisposable = null
+        }
     }
 }

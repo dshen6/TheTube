@@ -10,9 +10,15 @@ import android.support.v4.app.Fragment
 class ViewModelProviderHelper {
     companion object {
 
-        fun forFragment(fragment: Fragment):ViewModelProvider {
+        fun forFragmentInActivity(fragment: Fragment): ViewModelProvider {
             val factory = ViewModelProvider.AndroidViewModelFactory.getInstance(fragment.activity.application)
             val store = ViewModelStores.of(fragment.activity)
+            return ViewModelProvider(store, factory)
+        }
+
+        fun forFragment(fragment: Fragment): ViewModelProvider {
+            val factory = ViewModelProvider.AndroidViewModelFactory.getInstance(fragment.activity.application)
+            val store = ViewModelStores.of(fragment)
             return ViewModelProvider(store, factory)
         }
     }
