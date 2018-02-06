@@ -34,18 +34,18 @@ class LineStopsListFragment : Fragment() {
             stationId = getString(IntentExtras.STATION_ID_STRING)
         }
 
-        //        val list = ArrayList<String>().apply {
-//            add("940GZZLUASL")
-//            add("940GZZLUALP")
-//            add("940GZZLUWLO")
-//        }
-//        TubeApi.instance.getClosestDistanceFromTarget(list, 51.503147 to -0.113245)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe( {
-//                    System.out.println(it)
-//                }, {
-//
-//                })
+        val list = ArrayList<String>().apply {
+            add("940GZZLUASL")
+            add("940GZZLUALP")
+            add("940GZZLUWLO")
+        }
+        TubeApi.instance.getClosestDistanceFromTarget(list, 51.503147 to -0.113245)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( {
+                    System.out.println(it)
+                }, {
+
+                })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

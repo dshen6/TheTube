@@ -4,19 +4,24 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import bus.the.ride.thetube.R
 import bus.the.ride.thetube.models.Stop
 import bus.the.ride.thetube.util.asVisibility
+import bus.the.ride.thetube.util.dpToPixels
+import kotlin.math.absoluteValue
 
 /**
  * Created by Shen on 2/4/2018.
  */
 class LineStopsListAdapter(private val context: Context, private val stops: MutableList<Stop> = ArrayList(), private var selectedStopId: String? = null) : RecyclerView.Adapter<LineStopsListAdapter.ViewHolder>() {
 
+    companion object {
+        private const val CURSOR_OFFSET_SCALAR = 20
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_stop, parent, false)
         return ViewHolder(view)
@@ -28,17 +33,33 @@ class LineStopsListAdapter(private val context: Context, private val stops: Muta
         holder?.apply {
             stopNamePrimary.visibility = isSelectedStop(position).asVisibility()
             stopNameSecondary.visibility = (!isSelectedStop(position)).asVisibility()
+            locationCursor.visibility = (cursorPosition == position).asVisibility()
             if (isSelectedStop(position)) {
                 stopNamePrimary.text = stops[position].name
             } else {
                 stopNameSecondary.text = stops[position].name
             }
+            cursorOffset?.let {
+                val layoutParams = locationCursor.layoutParams as FrameLayout.LayoutParams
+                if (it < 0) {
+                    layoutParams.topMargin = (it.absoluteValue * CURSOR_OFFSET_SCALAR).dpToPixels()
+                    layoutParams.bottomMargin = 0
+                } else {
+                    layoutParams.bottomMargin = (it.absoluteValue * CURSOR_OFFSET_SCALAR).dpToPixels()
+                    layoutParams.topMargin = 0
+                }
+            }
         }
     }
 
-    fun isSelectedStop(position:Int) = stops[position].id == selectedStopId
+    private var cursorPosition: Int? = null
+    private var cursorOffset: Float? = null
 
-    fun bind(data: List<Stop>, stopId: String) {
+    private fun isSelectedStop(position: Int) = stops[position].id == selectedStopId
+
+    fun bind(data: List<Stop>, stopId: String, cursorPos: Int, offset: Float) {
+        cursorPosition = cursorPos
+        cursorOffset = offset
         selectedStopId = stopId
         stops.clear()
         stops.addAll(data)
@@ -48,5 +69,6 @@ class LineStopsListAdapter(private val context: Context, private val stops: Muta
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         val stopNamePrimary: TextView = root.findViewById(R.id.stopNamePrimary)
         val stopNameSecondary: TextView = root.findViewById(R.id.stopNameSecondary)
+        val locationCursor: ImageView = root.findViewById(R.id.locationCursor)
     }
 }

@@ -40,7 +40,7 @@ class LineStopsListViewDelegate(val root: View, context: Context) {
         recyclerView.visibility = (state is ViewState.DataReady).asVisibility()
         when (state) {
             is ViewState.DataReady -> {
-                (recyclerView.adapter as LineStopsListAdapter).bind(state.data, "")
+                (recyclerView.adapter as LineStopsListAdapter).bind(state.data, "", 2, .5F)
             }
         }
     }

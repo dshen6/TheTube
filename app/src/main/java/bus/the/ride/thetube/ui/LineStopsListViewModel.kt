@@ -58,4 +58,6 @@ class LineStopsListViewModel : ViewModel() {
             disposable = null
         }
     }
+
+    class LocationCursorLiveData()
 }

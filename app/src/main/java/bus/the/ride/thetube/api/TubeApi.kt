@@ -91,7 +91,7 @@ class TubeApi private constructor(private val tubeService: TubeService) {
             throw IllegalArgumentException("empty stopId list")
         }
 
-        return Single.merge(stopIds.map { stopId ->
+        return Single.concat(stopIds.map { stopId ->
             tubeService.getStopLatLon(stopId)
         }).toList().map { Haversine.closestDistanceToTarget(target, it) }
     }
