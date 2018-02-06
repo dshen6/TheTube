@@ -2,14 +2,38 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/default_padding">
+    android:layout_height="50dp">
 
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="2dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/default_padding"
+        android:src="@drawable/gray_rect" />
+
+    <ImageView
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/default_padding"
+        android:background="@color/gray" />
+
+    <ImageView
+        android:id="@+id/locationCursor"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/green_dot"
+        />
 
     <TextView
         android:id="@+id/stopNameSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="3dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp"
         android:textColor="@color/gray"
         android:textSize="@dimen/font_large"
         tools:text="station Name" />
@@ -18,8 +42,13 @@
         android:id="@+id/stopNamePrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/subtitleText"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="3dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp"
+        android:textColor="@color/gray"
         android:textSize="@dimen/font_large"
+        android:textStyle="bold"
         tools:text="station Name" />
 
 </FrameLayout>
