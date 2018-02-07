@@ -20,6 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -28,7 +34,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -39,4 +45,8 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.8'
     compile "com.google.code.gson:gson:2.8.2"
+
+    testCompile "org.robolectric:robolectric:3.4.2"
+    testCompile "org.mockito:mockito-core:2.7.22"
+    testCompile "com.nhaarman:mockito-kotlin-kt1.1:1.5.0", { exclude group: 'org.jetbrains.kotlin' }
 }
