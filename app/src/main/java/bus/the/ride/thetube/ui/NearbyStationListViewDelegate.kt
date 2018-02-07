@@ -50,10 +50,4 @@ class NearbyStationListViewDelegate(val root: View, private val context: Context
         }
     }
 
-    fun onConfigChanged() {
-        root.postDelayed({
-            root.requestLayout()
-        }, 100)
-    }
-
 }

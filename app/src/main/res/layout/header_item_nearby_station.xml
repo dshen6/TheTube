@@ -1,43 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/default_padding_half"
     android:paddingLeft="@dimen/default_padding"
-    android:paddingTop="17dp">
+    android:paddingRight="@dimen/default_padding"
+    android:paddingTop="@dimen/default_padding">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/gray"
-        android:layout_gravity="bottom" />
+    <TextView
+        android:id="@+id/station_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingRight="@dimen/default_padding_half"
+        android:textColor="@color/titleText"
+        android:textSize="@dimen/font_large"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/distance_meters"
+        tools:text="Awesome Station #1 really long naamama" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/distance_meters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/titleText"
+        android:textSize="@dimen/font_large"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="1000 m" />
 
-        <TextView
-            android:id="@+id/station_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingRight="@dimen/default_padding_half"
-            android:textColor="@color/titleText"
-            android:textSize="@dimen/font_large"
-            tools:text="Awesome Station #1 really long naamama" />
-
-        <TextView
-            android:id="@+id/distance_meters"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/default_padding"
-            android:textColor="@color/titleText"
-            android:textSize="@dimen/font_large"
-            tools:text="1000 m" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
