@@ -18,7 +18,7 @@ class LineStopsListViewModel : ViewModel() {
 
     fun getDataForLineId(lineId: String, stationId: String) = LineStopsListLiveData(lineId, stationId)
 
-    class LineStopsListLiveData(lineId: String, private val stationId: String) : LiveData<ViewState<LineStopsAndCursor>>() {
+    class LineStopsListLiveData(private val lineId: String, private val stationId: String) : LiveData<ViewState<LineStopsAndCursor>>() {
 
         private val request: Single<List<Stop>> = TubeApi.instance.getStopsForLine(lineId)
 
@@ -51,7 +51,7 @@ class LineStopsListViewModel : ViewModel() {
         }
 
         private fun loadCursorData(stops: List<Stop>) {
-            TubeApi.instance.getClosestStationInLineFromLocation(stationId)
+            TubeApi.instance.getClosestStationInLineFromLocation(lineId)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe( {station ->
