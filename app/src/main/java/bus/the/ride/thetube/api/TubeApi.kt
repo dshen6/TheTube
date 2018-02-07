@@ -41,10 +41,6 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         // https://api.tfl.gov.uk/Line/bakerloo/StopPoints?app_id={{app_id}}&app_key={{app_key}}
         @GET("Line/{lineId}/StopPoints")
         fun getStopsForLine(@Path("lineId") lineId: String): Single<List<Stop>>
-
-        // https://api.tfl.gov.uk/StopPoint/940GZZLUASL?app_id={{app_id}}&app_key={{app_key}}
-        @GET("StopPoint/{stopId}")
-        fun getStopLatLon(@Path("stopId") stopId: String): Single<StopLatLonResponse>
     }
 
     private fun getStationsInRadius(): Single<StationsInRadiusResponse> {
@@ -56,7 +52,6 @@ class TubeApi private constructor(private val tubeService: TubeService) {
     }
 
     private fun getStationsAndArrivals(): Flowable<Pair<StationInRadius, List<ArrivalPrediction>>> {
-        // TODO: Single.merge would be a lot more readable
         return Flowable.create({ emitter ->
             getStationsInRadius().subscribe({
                 val outstandingRequestCount = AtomicInteger(it.stations.size)

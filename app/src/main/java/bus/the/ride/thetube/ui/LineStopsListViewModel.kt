@@ -56,7 +56,7 @@ class LineStopsListViewModel : ViewModel() {
                     .subscribeOn(Schedulers.io())
                     .subscribe( {station ->
                         val stationIndex = stops.indexOfFirst { it.id == station.stationId }
-                        value = ViewState.DataReady(LineStopsAndCursor(stops, stationId, stationIndex, 0.0))
+                        value = ViewState.DataReady(LineStopsAndCursor(stops, stationId, stationIndex))
                     }, {
                         // ignored
                     })
