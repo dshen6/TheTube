@@ -6,15 +6,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import bus.the.ride.thetube.api.TubeApi
 import bus.the.ride.thetube.ui.LineStopsListViewDelegate
 import bus.the.ride.thetube.ui.LineStopsListViewModel
-import bus.the.ride.thetube.ui.NearbyStationListViewModel
 import bus.the.ride.thetube.util.IntentExtras
 import bus.the.ride.thetube.util.NullableUtils.ifNotNull
 import bus.the.ride.thetube.util.ViewModelProviderHelper
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import bus.the.ride.thetube.util.setPageTitle
 
 /**
  * Created by Shen on 2/4/2018.
@@ -46,4 +43,13 @@ class LineStopsListFragment : Fragment() {
 
         return lineStopsListViewDelegate.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        lineId?.let {
+            setPageTitle(it)
+        }
+    }
+
+
 }

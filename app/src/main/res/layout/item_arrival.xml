@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="@dimen/default_padding_half"
-    android:paddingBottom="@dimen/default_padding_half"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:foreground="?selectableItemBackground"
     android:paddingLeft="@dimen/default_padding_twice"
     android:paddingRight="@dimen/default_padding">
 
@@ -12,9 +11,9 @@
         android:id="@+id/arrivals_and_times"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_medium"
+        android:layout_gravity="center_vertical"
         android:textColor="@color/subtitleText"
-        tools:text= "Train towards Awesome Station #3 in 10 min"
-        />
+        android:textSize="@dimen/font_medium"
+        tools:text="Train towards Awesome Station #3 in 10 min" />
 
 </FrameLayout>

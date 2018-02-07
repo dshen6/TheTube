@@ -18,7 +18,7 @@ class LineStopsListViewModel : ViewModel() {
 
     fun getDataForLineId(lineId: String, stationId: String) = LineStopsListLiveData(lineId, stationId)
 
-    class LineStopsListLiveData(lineId: String, val stationId: String) : LiveData<ViewState<LineStopsAndCursor>>() {
+    class LineStopsListLiveData(lineId: String, private val stationId: String) : LiveData<ViewState<LineStopsAndCursor>>() {
 
         private val request: Single<List<Stop>> = TubeApi.instance.getStopsForLine(lineId)
 
@@ -41,7 +41,7 @@ class LineStopsListViewModel : ViewModel() {
                         if (stops.isEmpty()) {
                             value = ViewState.Empty()
                         } else {
-                            value = ViewState.DataReady(LineStopsAndCursor(stops))
+                            value = ViewState.DataReady(LineStopsAndCursor(stops, stationId))
                             loadCursorData(stops)
                         }
                     }, {

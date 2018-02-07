@@ -11,6 +11,7 @@ import bus.the.ride.thetube.ui.NearbyStationListViewDelegate
 import bus.the.ride.thetube.ui.NearbyStationListViewModel
 import bus.the.ride.thetube.util.ArrivalItemClickRunnable
 import bus.the.ride.thetube.util.ViewModelProviderHelper
+import bus.the.ride.thetube.util.setPageTitle
 
 /**
  * Created by Shen on 2/4/2018.
@@ -34,6 +35,11 @@ class NearbyStationListFragment : Fragment() {
             viewState?.let { nearbyStationListViewDelegate.setState(it) }
         })
         return nearbyStationListViewDelegate.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setPageTitle(getString(R.string.nearby_stations))
     }
 
 }

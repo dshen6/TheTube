@@ -3,11 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/default_padding_half"
+    android:layout_height="50dp"
     android:paddingLeft="@dimen/default_padding"
-    android:paddingRight="@dimen/default_padding"
-    android:paddingTop="@dimen/default_padding">
+    android:paddingTop="17dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/station_name"
@@ -26,6 +30,7 @@
         android:id="@+id/distance_meters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingRight="@dimen/default_padding"
         android:textColor="@color/titleText"
         android:textSize="@dimen/font_large"
         app:layout_constraintRight_toRightOf="parent"
