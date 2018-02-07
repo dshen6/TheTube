@@ -41,7 +41,8 @@ class LineStopsListViewModel : ViewModel() {
                         if (stops.isEmpty()) {
                             value = ViewState.Empty()
                         } else {
-                            value = ViewState.DataReady(LineStopsAndCursor(stops, stationId))
+                            val currentStationIndex = stops.indexOfFirst { it.id == stationId }
+                            value = ViewState.DataReady(LineStopsAndCursor(stops, stationId, currentStationIndex))
                             loadCursorData(stops)
                         }
                     }, {
@@ -50,24 +51,12 @@ class LineStopsListViewModel : ViewModel() {
         }
 
         private fun loadCursorData(stops: List<Stop>) {
-            val currentStationIndex = stops.indexOfFirst { it.id == stationId }
-            var addedStopBefore = false
-            val surroundingStations = ArrayList<String>().apply {
-                if (currentStationIndex > 1) {
-                    add(stops[currentStationIndex - 1].id)
-                    addedStopBefore = true
-                }
-                add(stationId)
-                if (currentStationIndex < stops.size - 1) {
-                    add(stops[currentStationIndex + 1].id)
-                }
-            }
-            TubeApi.instance.getClosestDistanceFromTarget(surroundingStations)
+            TubeApi.instance.getClosestStationInLineFromLocation(stationId)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe( {(cursorIndex, cursorOffset) ->
-                        val adjustedCursorIndex = cursorIndex + currentStationIndex + if (addedStopBefore) (-1) else (0)
-                        value = ViewState.DataReady(LineStopsAndCursor(stops, stationId, adjustedCursorIndex, cursorOffset))
+                    .subscribe( {station ->
+                        val stationIndex = stops.indexOfFirst { it.id == station.stationId }
+                        value = ViewState.DataReady(LineStopsAndCursor(stops, stationId, stationIndex, 0.0))
                     }, {
                         // ignored
                     })

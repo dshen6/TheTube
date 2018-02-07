@@ -1,7 +1,6 @@
 package bus.the.ride.thetube.api
 
 import bus.the.ride.thetube.models.*
-import bus.the.ride.thetube.util.Haversine
 import bus.the.ride.thetube.util.exponentialBackoff
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -11,9 +10,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.atomic.AtomicInteger
 
-/**
- * Created by Shen on 1/20/2018.
- */
+        /**
+         * Created by Shen on 1/20/2018.
+         */
 typealias NearbyStationsAndArrivals = MutableList<Pair<StationInRadius, List<ArrivalPrediction>>>
 
 class TubeApi private constructor(private val tubeService: TubeService) {
@@ -21,6 +20,7 @@ class TubeApi private constructor(private val tubeService: TubeService) {
     companion object {
 
         private const val TUBE_STATION_STOP_TYPE = "NaptanMetroStation"
+        private const val TUBE_LINE_MODE_NAME = "tube"
         private const val DEFAULT_RADIUS = 1000
         private const val DEFAULT_LATITUDE = 51.503147F // Waterloo station
         private const val DEFAULT_LONGITUDE = -0.113245F
@@ -82,13 +82,12 @@ class TubeApi private constructor(private val tubeService: TubeService) {
         return tubeService.getStopsForLine(lineId)
     }
 
-    fun getClosestDistanceFromTarget(stopIds: List<String>, target: Pair<Double, Double> = (DEFAULT_LATITUDE.toDouble() to DEFAULT_LONGITUDE.toDouble())): Single<Pair<Int, Double>> {
-        if (stopIds.isEmpty()) {
-            throw IllegalArgumentException("empty stopId list")
+    fun getClosestStationInLineFromLocation(lineId: String): Single<StationInRadius> {
+        return getStationsInRadius().map { response ->
+            response.stations.first { station ->
+                station.lineModeGroups.first { lineModeGroup -> lineModeGroup.modeName == TUBE_LINE_MODE_NAME }
+                        .lineIds.contains(lineId)
+            }
         }
-
-        return Single.concat(stopIds.map { stopId ->
-            tubeService.getStopLatLon(stopId)
-        }).toList().map { Haversine.closestDistanceToTarget(target, it) }
     }
 }
