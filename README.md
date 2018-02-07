@@ -6,10 +6,5 @@ Learnings:
 - ViewModels are kind of cool, but a bit too magic, and sorely lacking documentation.
 - Reactive State paradigm works for web when you don't have to write the filler code. But you do for android, feelsbadman.
 
-
-
-
 TODO:
-- Design cleanup
 - Adjust haversine to return negative offset if necessary
-- Tests
