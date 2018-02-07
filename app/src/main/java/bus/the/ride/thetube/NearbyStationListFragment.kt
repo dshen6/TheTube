@@ -1,6 +1,7 @@
 package bus.the.ride.thetube
 
 import android.arch.lifecycle.Observer
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ class NearbyStationListFragment : Fragment() {
         ViewModelProviderHelper.forFragmentInActivity(this).get(NearbyStationListViewModel::class.java)
     }
 
+    private var nearbyStationListViewDelegate :NearbyStationListViewDelegate? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val nearbyStationListViewDelegate = NearbyStationListViewDelegate.create(inflater, container)
@@ -34,7 +36,13 @@ class NearbyStationListFragment : Fragment() {
         viewModel.data.observe(this, Observer { viewState ->
             viewState?.let { nearbyStationListViewDelegate.setState(it) }
         })
+        this.nearbyStationListViewDelegate = nearbyStationListViewDelegate
         return nearbyStationListViewDelegate.root
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        nearbyStationListViewDelegate?.onConfigChanged()
     }
 
     override fun onResume() {

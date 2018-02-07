@@ -17,7 +17,7 @@ import bus.the.ride.thetube.util.asVisibility
 /**
  * Created by Shen on 2/3/2018.
  */
-class NearbyStationListViewDelegate(val root: View, context: Context) {
+class NearbyStationListViewDelegate(val root: View, private val context: Context) {
 
     companion object {
         fun create(inflater: LayoutInflater, container: ViewGroup?): NearbyStationListViewDelegate {
@@ -48,6 +48,12 @@ class NearbyStationListViewDelegate(val root: View, context: Context) {
                 (recyclerView.adapter as NearbyStationsSectionAdapter).bind(state.data, arrivalItemClickRunnable)
             }
         }
+    }
+
+    fun onConfigChanged() {
+        root.postDelayed({
+            root.requestLayout()
+        }, 100)
     }
 
 }
